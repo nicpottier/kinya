@@ -5,7 +5,7 @@ var failed = false
 
 var NUM = 5
 
-var lessons = []
+var lessons = [ { "name": "Greetings", "pk": 1, "enabled": true, "questions": [ { "q": "Hello", "a": "Muraho", "n": "when you haven't seen someone for a few days", "pk": 1, "s": 0, "m": 0, "dq": 0 } , { "q": "How are you?", "a": "Amakuru?", "n": "", "pk": 2, "s": 0, "m": 0, "dq": 0 } , { "q": "I'm fine", "a": "Ni meza", "n": "response to how are you", "pk": 3, "s": 0, "m": 0, "dq": 0 } , { "q": "How are things?", "a": "Bite?", "n": "", "pk": 4, "s": 0, "m": 0, "dq": 0 } , { "q": "Things are good", "a": "Ni Byiza", "n": "response to how are things", "pk": 5, "s": 0, "m": 0, "dq": 0 } , { "q": "Welcome", "a": "Murakaza neza", "n": "as a greeting", "pk": 6, "s": 0, "m": 0, "dq": 0 } , { "q": "Good Morning", "a": "Mwaramutse", "n": "", "pk": 7, "s": 0, "m": 0, "dq": 0 } , { "q": "Good Afternoon", "a": "Mwiriwe", "n": "", "pk": 8, "s": 0, "m": 0, "dq": 0 } , { "q": "Goodbye", "a": "Mwirirwe", "n": "in the afternoon", "pk": 9, "s": 0, "m": 0, "dq": 0 } , { "q": "Good Night", "a": "Muramuke", "n": "", "pk": 10, "s": 0, "m": 0, "dq": 0 } , { "q": "Goodbye", "a": "Murabeho", "n": "when saying goodbye for a few days", "pk": 11, "s": 0, "m": 0, "dq": 0 } , { "q": "See you tomorrow", "a": "Nahejo", "n": "", "pk": 12, "s": 0, "m": 0, "dq": 0 } ] } ];
 
 // our queues represent our mastery of questions.  When we get the right
 // answer for a question on the first try, then we move from our current
@@ -137,10 +137,16 @@ function setCurrent(newCurr){
  }
 
 function checkAnswer(answer){
-    var truth = curr.a.trim().toLowerCase().replace(/[^a-z ]/g, '');
-    var answer = answer.trim().toLowerCase().replace(/[^a-z ]/g, '');
-
-    var wasRight = answer == truth;
+    var wasRight = false;
+    if ($.browser.msie){
+	var truth = curr.a.toLowerCase().replace(/[^a-z ]/g, '');
+	var answer = answer.toLowerCase().replace(/[^a-z ]/g, '');
+	wasRight = answer == truth;
+    } else {
+	var truth = curr.a.trim().toLowerCase().replace(/[^a-z ]/g, '');
+	var answer = answer.trim().toLowerCase().replace(/[^a-z ]/g, '');
+	wasRight = answer == truth;
+    }
 
     // adjust the difficulty for the item
     if (!wasRight && curr.dq > 0){
@@ -207,7 +213,7 @@ function submitQuiz(){
 	    retry = false
 	} else {
 	    retry = !checkAnswer($("#quiz_answer").val());
-	    
+
 	    if (!retry){
 		currIdx = (currIdx+1) % questions.length;
 		failed = false
@@ -224,7 +230,7 @@ function submitQuiz(){
 
 	displayQueues();
     } catch (e){
-	alert(e.message)
+	alert("fail: " + e.message)
     }
 
     return false;
@@ -323,7 +329,6 @@ $(document).ready(function(){
 	"error": function(XMLHttpRequest,textStatus, errorThrown) { 
 	    $('#error').html('Error' + textStatus + ' ' + errorThrown);
 	} });
-
 
     $.getJSON('/ajax/get_lessons', function(data){
 	lessons = data;
