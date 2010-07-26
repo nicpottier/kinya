@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% for lesson in lessons %}
+<div class="lesson">
+	<h2>{{ lesson.number }} - {{ lesson.name }}</h2>
+</div>
+{% endfor %}
+{% endblock %}
