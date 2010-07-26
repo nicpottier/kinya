@@ -17,6 +17,7 @@ body {
     position: absolute;
     top: 0;
     opacity: 0;
+    display: none;
 }
 
 #quiz_wrong {
@@ -26,6 +27,7 @@ body {
     position: absolute;
     top: 0;
     opacity: 0;
+    display: none;
 }
 
 #current {
