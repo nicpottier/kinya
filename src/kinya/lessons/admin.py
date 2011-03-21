@@ -6,8 +6,8 @@ class QuestionInline(admin.StackedInline):
     extra = 0
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('lesson', 'question', 'answer', 'note')
-    list_editable = ('question', 'answer', 'note')
+    list_display = ('lesson', 'question', 'answer', 'truth', 'note')
+    list_editable = ('question', 'answer', 'truth', 'note')
     list_filter = ('lesson', )
     search_fields = ('question', 'answer')
     actions_on_bottom = True

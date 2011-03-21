@@ -5,7 +5,7 @@
   "enabled": true,
   "questions": [
   {% for question in lesson.question_set.all %}
-    { "q": "{{ question.question|safe }}", "a": "{{ question.answer|safe }}", "n": "{{ question.note|safe }}", "pk": {{ question.pk }}, "s": 0,  "m": 0, "dq": 0 }
+    { "q": "{{ question.question|safe }}", "t": "{{ question.truth|safe }}", "a": "{{ question.answer|safe }}", "n": "{{ question.note|safe }}", "pk": {{ question.pk }}, "s": 0,  "m": 0, "dq": 0 }
     {% if not forloop.last %},{% endif %}
   {% endfor %}
   ]

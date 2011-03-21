@@ -17,6 +17,7 @@ class Question(models.Model):
     lesson = models.ForeignKey(Lesson)
     question = models.CharField(max_length=255)
     answer = models.CharField(max_length=255)
+    truth = models.CharField(max_length=255)
     note = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):

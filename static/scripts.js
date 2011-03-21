@@ -139,11 +139,11 @@ function setCurrent(newCurr){
 function checkAnswer(answer){
     var wasRight = false;
     if ($.browser.msie){
-	var truth = curr.a.toLowerCase().replace(/[^a-z ]/g, '');
+	var truth = curr.t.toLowerCase().replace(/[^a-z ]/g, '');
 	var answer = answer.toLowerCase().replace(/[^a-z ]/g, '');
 	wasRight = answer == truth;
     } else {
-	var truth = curr.a.trim().toLowerCase().replace(/[^a-z ]/g, '');
+	var truth = curr.t.trim().toLowerCase().replace(/[^a-z ]/g, '');
 	var answer = answer.trim().toLowerCase().replace(/[^a-z ]/g, '');
 	wasRight = answer == truth;
     }
