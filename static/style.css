@@ -116,8 +116,15 @@ body {
 #quiz_correction {
     padding-top: 20px;
     font-size: 180%;
-    color: red;
     display: none;
+}
+
+.right {
+    color: green;
+}
+
+.wrong {
+    color: red;
 }
 
 #quiz_continue {

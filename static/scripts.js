@@ -2,6 +2,7 @@ var currIdx = 0;
 var curr;
 var retry = false;
 var failed = false
+var onEnter = submitQuiz;
 
 var NUM = 5
 
@@ -25,6 +26,13 @@ var dqs = [
 ];
 
 var questions = []
+
+function playAudio(audio){
+  var audioElement = document.createElement('audio');
+  audioElement.setAttribute('src', '/static/' + audio);
+  audioElement.play();
+  $(audio).remove();
+}
 
 function getNextQuestion(){
     var seed = Math.floor(Math.random() * 16);
@@ -101,6 +109,8 @@ function setCurrent(newCurr){
 	$("#quiz_answer").val("");
     
 	// and correction
+	$("#quiz_correction").removeClass("right")
+	$("#quiz_correction").removeClass("wrong")
 	$("#quiz_correction").hide()
 
 	// update our queues
@@ -123,6 +133,8 @@ function setCurrent(newCurr){
     $("#quiz_answer").val("");
     
     // and correction
+    $("#quiz_correction").removeClass("right")
+    $("#quiz_correction").removeClass("wrong")
     $("#quiz_correction").hide()
     
     // select the text box
@@ -156,6 +168,8 @@ function checkAnswer(answer){
     }
 
     if (wasRight){
+        playAudio(curr.aud);
+
 	$("#quiz_right").fadeTo(50, .2, function(){
 	    $(this).fadeTo(100, .001);
 	});
@@ -204,28 +218,46 @@ function onLessonClick(){
     initQuestions();
 }
 
+function nextQuestion(){
+    currIdx = (currIdx+1) % questions.length;
+    setCurrent(questions[currIdx])
+    onEnter = submitQuiz;
+
+    if ($.browser.webkit){
+	$("#quiz_answer").attr("disabled", "")
+    }
+}
+
+function retryQuestion(){
+    setCurrent(curr)
+    $("#quiz_answer").attr("disabled", "")
+    $("#quiz_answer").focus();
+    onEnter = submiQuiz;
+}
+
 function submitQuiz(){
     try{
-	if (retry){
-	    setCurrent(curr)
-	    $("#quiz_answer").attr("disabled", "")
-	    $("#quiz_answer").focus();
-	    retry = false
-	} else {
-	    retry = !checkAnswer($("#quiz_answer").val());
+	retry = !checkAnswer($("#quiz_answer").val());
 
-	    if (!retry){
-		currIdx = (currIdx+1) % questions.length;
-		failed = false
-		setCurrent(questions[currIdx])
-	    } else {
-		$("#quiz_right_answer").text(curr.a);
-     		$("#quiz_correction").show()
-		if ($.browser.webkit){
-		    $("#quiz_answer").attr("disabled", "disabled")
-		}
-		failed = true
+	if (!retry){
+	    $("#quiz_right_answer").text(curr.a);
+	    $("#quiz_correction").removeClass("wrong")
+	    $("#quiz_correction").addClass("right")
+     	    $("#quiz_correction").show();
+	    if ($.browser.webkit){
+		$("#quiz_answer").attr("disabled", "disabled")
 	    }
+            onEnter = nextQuestion;
+	} else {
+	    $("#quiz_right_answer").text(curr.a);
+	    $("#quiz_correction").removeClass("right")
+	    $("#quiz_correction").addClass("wrong")
+     	    $("#quiz_correction").show();
+	    if ($.browser.webkit){
+		$("#quiz_answer").attr("disabled", "disabled")
+	    }
+	    failed = true
+            onEnter = retryQuestion;
 	}
 
 	displayQueues();
@@ -336,9 +368,11 @@ $(document).ready(function(){
 	$("#quiz").submit(function(){ return false; });
 	$(document).keydown(function(e){
 	    if (e.which == 13){
-		submitQuiz();
+                onEnter()
 		return true;
-	    }
+	    } else if (e.which == 32 && onEnter != submitQuiz){
+                playAudio(curr.aud);
+            }
 	});
     });
  });
