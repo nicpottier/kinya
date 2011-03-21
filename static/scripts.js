@@ -232,7 +232,7 @@ function retryQuestion(){
     setCurrent(curr)
     $("#quiz_answer").attr("disabled", "")
     $("#quiz_answer").focus();
-    onEnter = submiQuiz;
+    onEnter = submitQuiz;
 }
 
 function submitQuiz(){
@@ -247,6 +247,7 @@ function submitQuiz(){
 	    if ($.browser.webkit){
 		$("#quiz_answer").attr("disabled", "disabled")
 	    }
+	    failed = false;
             onEnter = nextQuestion;
 	} else {
 	    $("#quiz_right_answer").text(curr.a);
@@ -256,7 +257,7 @@ function submitQuiz(){
 	    if ($.browser.webkit){
 		$("#quiz_answer").attr("disabled", "disabled")
 	    }
-	    failed = true
+	    failed = true;
             onEnter = retryQuestion;
 	}
 

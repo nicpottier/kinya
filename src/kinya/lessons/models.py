@@ -19,7 +19,7 @@ class Question(models.Model):
     answer = models.CharField(max_length=255)
     truth = models.CharField(max_length=255)
     note = models.CharField(max_length=255, null=True, blank=True)
-    audio = models.FileField(upload_to="audio")
+    audio = models.FileField(upload_to="audio", null=True, blank=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.question, self.answer)
