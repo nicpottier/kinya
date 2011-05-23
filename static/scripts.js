@@ -45,9 +45,15 @@ function getNextQuestion(){
 
     total = level1 + level2 + level3 + level4
 
-    var pick = Math.floor(total * random);
+    var pick = Math.floor(total * 10)
 
     q = 0;
+    if (pick <= 6){
+        q = 0;
+    } else {
+        q = 2;
+    }
+
 //    if (pick <= level1){
 //	q = 0;
 //    } else if (pick <= level1 + level2){
