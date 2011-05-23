@@ -36,16 +36,23 @@ function playAudio(audio){
 
 function getNextQuestion(){
     random = Math.random();
-    var seed = Math.floor(random);
     var item;
 
-    q = 0;
+    level1 = dqs[0].length * 8
+    level2 = dqs[1].length * 4
+    level3 = dqs[2].length * 2
+    level4 = dqs[3].length * 1
 
-    if (seed >= 8){
+    total = level1 + level2 + level3 + level4
+
+    var pick = Math.floor(total * random);
+
+    q = 0;
+    if (pick <= level1){
 	q = 0;
-    } else if (seed >= 4){
+    } else if (pick <= level2){
 	q = 1;
-    } else if (seed >= 2){
+    } else if (level <= level3){
 	q = 2;
     } else {
 	q = 3;
