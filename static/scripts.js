@@ -35,7 +35,8 @@ function playAudio(audio){
 }
 
 function getNextQuestion(){
-    var seed = Math.floor(Math.random() * 16);
+    random = Math.random();
+    var seed = Math.floor(random);
     var item;
 
     q = 0;
@@ -320,19 +321,7 @@ function initQuestions(){
 
     // sort our qs by last seen
     for (i in dqs){
-	dqs[i].sort(function(a, b){
-	    if (!('last' in a)){
-		if (!'last' in b){
-		    return 0;
-		} else {
-		    return 1;
-		}
-	    } else if (!('last' in b)){
-		return -1;
-	    } else {
-		return a.last - b.last;
-	    }
-	});
+        shuffle(dqs[i]);
     }
 
     // hook in our lesson click event
@@ -377,4 +366,18 @@ $(document).ready(function(){
 	});
     });
  });
+
+//shuffles list in-place
+function shuffle(list) {
+  var i, j, t;
+  for (i = 1; i < list.length; i++) {
+    j = Math.floor(Math.random()*(1+i));  // choose j in [0..i]
+    if (j != i) {
+      t = list[i];                        // swap list[i] and list[j]
+      list[i] = list[j];
+      list[j] = t;
+    }
+  }
+}
+
 
