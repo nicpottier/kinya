@@ -48,15 +48,15 @@ function getNextQuestion(){
     var pick = Math.floor(total * random);
 
     q = 0;
-    if (pick <= level1){
-	q = 0;
-    } else if (pick <= level1 + level2){
-	q = 1;
-    } else if (pick <= level1 + level2 + level3){
-	q = 2;
-    } else {
-	q = 3;
-    }
+//    if (pick <= level1){
+//	q = 0;
+//    } else if (pick <= level1 + level2){
+//	q = 1;
+//    } else if (pick <= level1 + level2 + level3){
+//	q = 2;
+//    } else {
+//	q = 3;
+//    }
 
     // first walk into items which need more practice
     do {
