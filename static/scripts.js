@@ -50,9 +50,9 @@ function getNextQuestion(){
     q = 0;
     if (pick <= level1){
 	q = 0;
-    } else if (pick <= level2){
+    } else if (pick <= level1 + level2){
 	q = 1;
-    } else if (level <= level3){
+    } else if (pick <= level1 + level2 + level3){
 	q = 2;
     } else {
 	q = 3;
